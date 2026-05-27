@@ -8,22 +8,30 @@ REVIEW_MARKERS = ("假设", "待人工复核", "待确认", "需核对")
 LOCAL_PATH_PATTERN = re.compile(r"(?:[A-Za-z]:\\|/Users/|/home/)")
 
 
+def _terminal_safe(text: str) -> str:
+    return text.encode("ascii", errors="backslashreplace").decode("ascii")
+
+
 def validate_document(path: Path, required_heading: str) -> list[str]:
     errors: list[str] = []
     text = path.read_text(encoding="utf-8") if path.exists() else ""
     if not text.strip():
         return [f"{path.name}: output is empty or missing"]
     if required_heading not in text:
-        errors.append(f"{path.name}: missing required heading {required_heading!r}")
+        errors.append(f"{path.name}: missing required heading {_terminal_safe(required_heading)!r}")
     headings = [
         line.strip().casefold() for line in text.splitlines() if line.startswith("## ")
     ]
     duplicates = sorted({heading for heading in headings if headings.count(heading) > 1})
     if duplicates:
-        errors.append(f"{path.name}: duplicate section heading(s): {', '.join(duplicates)}")
+        errors.append(
+            f"{path.name}: duplicate section heading(s): {_terminal_safe(', '.join(duplicates))}"
+        )
     for marker in DIALOGUE_MARKERS:
         if marker in text:
-            errors.append(f"{path.name}: conversational residue found: {marker}")
+            errors.append(
+                f"{path.name}: conversational residue found: {_terminal_safe(marker)}"
+            )
     if LOCAL_PATH_PATTERN.search(text):
         errors.append(f"{path.name}: local filesystem path found")
     return errors
