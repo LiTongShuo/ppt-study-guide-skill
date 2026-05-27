@@ -1,0 +1,4 @@
+interface:
+  display_name: "PPT Study Guide"
+  short_description: "将演示文稿转换为结构化复习资料，并执行发布前质量检查"
+  default_prompt: "Use $ppt-study-guide-skill to convert a presentation into a checked study guide and knowledge index."
