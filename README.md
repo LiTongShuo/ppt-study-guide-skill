@@ -1,5 +1,7 @@
 # PPT Study Guide Skill
 
+中文 | [English](README.en.md)
+
 [![Validate PPT Study Guide Skill](https://github.com/LiTongShuo-edu/ppt-study-guide-skill/actions/workflows/validate.yml/badge.svg)](https://github.com/LiTongShuo-edu/ppt-study-guide-skill/actions/workflows/validate.yml)
 
 `ppt-study-guide-skill` 是一个将 `.pptx` 演示文稿转换为结构化 Markdown 资料的 Agent Skill。它从幻灯片中提取文字，生成复习指南与知识索引，并在输出发布前检查常见的结构和内容卫生问题。
